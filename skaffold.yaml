@@ -8,7 +8,7 @@ build: ## 변경사항이 있을 때 마다 docker hub에 push 하지 말라
   # local:
   #   push: false
   googleCloudBuild:
-    projectId: ticketing-419602-fleet
+    projectId: ticketing-419602
   artifacts:
     - image: us.gcr.io/ticketing-419602/auth
       context: auth
