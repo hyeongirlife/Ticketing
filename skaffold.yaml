@@ -3,12 +3,14 @@ kind: Config
 deploy:
   kubectl:
     manifests:
-      - infra/k8s/*
+      - ./infra/k8s/*
 build: ## 변경사항이 있을 때 마다 docker hub에 push 하지 말라
-  local:
-    push: false
+  # local:
+  #   push: false
+  googleCloudBuild:
+    projectId: ticketing-419602-fleet
   artifacts:
-    - image: hyeongeol/auth
+    - image: us.gcr.io/ticketing-419602/auth
       context: auth
       docker:
         dockerfile: Dockerfile
