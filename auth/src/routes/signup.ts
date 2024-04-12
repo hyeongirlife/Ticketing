@@ -3,10 +3,12 @@ import joi from 'joi';
 import { RequestValidationError } from '../errors/request-validation-error';
 import { DatabaseConnectionError } from '../errors/database-connection.error';
 import { NotFoundError } from '../errors/not-found-error';
+import { User } from '../models/user';
+import { ConflictError } from '../errors/conflict-error';
 
 const router = express.Router();
 
-router.post('/api/users/signup', (req: Request, res: Response) => {
+router.post('/api/users/signup', async (req: Request, res: Response) => {
   const schema = joi.object({
     email: joi.string().email().required(),
     password: joi.string().min(4).max(20).required(),
@@ -21,7 +23,16 @@ router.post('/api/users/signup', (req: Request, res: Response) => {
 
   console.log('Create a user');
 
-  res.send({});
+  const exsitingUser = await User.findOne({ email });
+
+  if (exsitingUser) {
+    throw new ConflictError('Email is already in use');
+  }
+
+  const user = User.build({ email, password });
+  await user.save();
+
+  res.status(201).send(user);
 });
 
 export { router as signupRouter };

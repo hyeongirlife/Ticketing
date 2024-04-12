@@ -13,4 +13,6 @@ export const errorHandler = (
     res.status(err.statusCode).send({ error: err.message });
     return;
   }
+
+  res.status(400).send({ error: 'Internal Server Error' });
 };
