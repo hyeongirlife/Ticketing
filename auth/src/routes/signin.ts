@@ -1,9 +1,50 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
+import joi, { exist } from 'joi';
+import { BadRequestError } from '../errors/bad-request';
+import { User } from '../models/user';
+import { Password } from '../services/password';
 
 const router = express.Router();
 
-router.post('/api/users/signin', (req, res) => {
-  res.send('Hi there!');
-});
+router.post(
+  '/api/users/signin',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const schema = joi.object({
+        email: joi.string().email().required(),
+        password: joi.string().min(4).max(20).required(),
+      });
+      const { error, value } = schema.validate(req.body);
+
+      const { email, password } = req.body;
+
+      if (error) {
+        throw new BadRequestError(error.message);
+      }
+
+      const exsitingUser = await User.findOne({ where: { email } });
+
+      if (!exsitingUser) {
+        throw new BadRequestError(
+          '존재하지 않는 유저입니다. 회원가입을 진행해주세요.',
+        );
+      }
+      const decryptedPassword = await Password.compare(
+        exsitingUser.password,
+        password,
+      );
+
+      if (decryptedPassword !== password) {
+        throw new BadRequestError(
+          '비밀번호가 일치하지 않습니다. 다시 입력해주세요.',
+        );
+      }
+
+      res.send(200).send(exsitingUser);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 
 export { router as signinRouter };

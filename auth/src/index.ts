@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import { currentUserRouter } from './routes/current-user';
@@ -24,7 +25,7 @@ app.use(signoutRouter);
 app.use(signupRouter);
 
 app.use(errorHandler);
-
+console.log('process.env', process.env.JWT_KEY);
 const start = async () => {
   if (!process.env.JWT_KEY) {
     throw new Error('JWT_KEY must be defined');
