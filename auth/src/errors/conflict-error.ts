@@ -1,7 +1,7 @@
 import { CustomError } from './custom-error';
 
 export class ConflictError extends CustomError {
-  statusCode = 400;
+  statusCode = 409;
   constructor(public message: string) {
     super(message);
     this.message = message;

@@ -10,9 +10,11 @@ export const errorHandler = (
   next: NextFunction,
 ) => {
   if (err instanceof CustomError) {
+    console.log('에러1', err);
     res.status(err.statusCode).send({ error: err.message });
     return;
   }
-
+  console.log('에러2', err);
   res.status(400).send({ error: 'Internal Server Error' });
+  return;
 };

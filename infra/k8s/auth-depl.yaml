@@ -15,6 +15,12 @@ spec:
       containers:
         - name: auth
           image: us.gcr.io/ticketing-419602/auth
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret ## 클러스터에서 참조하는 이름
+                  key: JWT_KEY
 ---
 apiVersion: v1
 kind: Service
