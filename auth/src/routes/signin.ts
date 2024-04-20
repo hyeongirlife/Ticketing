@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
-import joi, { exist } from 'joi';
+import joi from 'joi';
+import jwt from 'jsonwebtoken';
 import { BadRequestError } from '../errors/bad-request';
 import { User } from '../models/user';
 import { Password } from '../services/password';
@@ -22,7 +23,7 @@ router.post(
         throw new BadRequestError(error.message);
       }
 
-      const exsitingUser = await User.findOne({ where: { email } });
+      const exsitingUser = await User.findOne({ email });
 
       if (!exsitingUser) {
         throw new BadRequestError(
@@ -34,13 +35,23 @@ router.post(
         password,
       );
 
-      if (decryptedPassword !== password) {
+      if (!decryptedPassword) {
         throw new BadRequestError(
           '비밀번호가 일치하지 않습니다. 다시 입력해주세요.',
         );
       }
 
-      res.send(200).send(exsitingUser);
+      const userJwt = jwt.sign(
+        {
+          id: exsitingUser.id,
+          email: exsitingUser.email,
+        },
+        process.env.JWT_KEY!,
+      );
+
+      req.session = { jwt: userJwt };
+
+      res.status(200).send(exsitingUser);
     } catch (err) {
       next(err);
     }

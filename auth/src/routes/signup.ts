@@ -28,7 +28,7 @@ router.post(
 
       console.log('Create a user');
 
-      const exsitingUser = await User.findOne({ where: { email } });
+      const exsitingUser = await User.findOne({ email });
 
       if (exsitingUser) {
         throw new ConflictError('Email is already in use');
