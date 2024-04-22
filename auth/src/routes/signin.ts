@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import joi from 'joi';
 import jwt from 'jsonwebtoken';
-import { BadRequestError } from '../errors/bad-request';
+import { BadRequestError } from '../../../common/src/errors/bad-request';
 import { User } from '../models/user';
 import { Password } from '../services/password';
 

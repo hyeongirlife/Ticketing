@@ -2,11 +2,11 @@ import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import joi from 'joi';
 import jwt from 'jsonwebtoken';
-import { DatabaseConnectionError } from '../errors/database-connection.error';
-import { NotFoundError } from '../errors/not-found-error';
+import { DatabaseConnectionError } from '../../../common/src/errors/database-connection.error';
+import { NotFoundError } from '../../../common/src/errors/not-found-error';
 import { User } from '../models/user';
-import { ConflictError } from '../errors/conflict-error';
-import { BadRequestError } from '../errors/bad-request';
+import { ConflictError } from '../../../common/src/errors/conflict-error';
+import { BadRequestError } from '../../../common/src/errors/bad-request';
 
 const router = express.Router();
 

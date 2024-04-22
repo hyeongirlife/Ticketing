@@ -18,3 +18,11 @@ build: ## 변경사항이 있을 때 마다 docker hub에 push 하지 말라
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: us.gcr.io/ticketing-419602/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
