@@ -5,8 +5,8 @@ import { currentUserRouter } from './routes/currunt-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
-import { errorHandler } from '../../common/src/middlewares/error-handler';
-import { NotFoundError } from '../../common/src/errors/not-found-error';
+import { errorHandler } from '@modu-ticket/common';
+import { NotFoundError } from '@modu-ticket/common';
 
 const app = express();
 

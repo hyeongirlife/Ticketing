@@ -2,11 +2,8 @@ import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import joi from 'joi';
 import jwt from 'jsonwebtoken';
-import { DatabaseConnectionError } from '../../../common/src/errors/database-connection.error';
-import { NotFoundError } from '../../../common/src/errors/not-found-error';
 import { User } from '../models/user';
-import { ConflictError } from '../../../common/src/errors/conflict-error';
-import { BadRequestError } from '../../../common/src/errors/bad-request';
+import { BadRequestError, ConflictError } from '@modu-ticket/common';
 
 const router = express.Router();
 
