@@ -26,3 +26,11 @@ build: ## 변경사항이 있을 때 마다 docker hub에 push 하지 말라
         manual:
           - src: '**/*.js'
             dest: .
+    - image: us.gcr.io/ticketing-419602/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync: ## skaffold가 동기화를 바라보는 경로를 정의
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
